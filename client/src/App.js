@@ -1,11 +1,19 @@
-import ChatContainer from "./components/ChatContainer.js";
+import { NotificationContainer } from 'react-notifications';
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
+import Main from "./components/main/Main";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 
 function App() {
   return (
-    <div style={{backgroundColor: "#ece5dd" , maxHeight:"100%" , padding:10}} >
-      <ChatContainer/>
-    </div>
+    <>
+      <Header />
+      <Main />
+      <Footer />
+      <NotificationContainer />
+    </>
   );
 }
 

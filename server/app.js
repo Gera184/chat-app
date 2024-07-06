@@ -1,50 +1,30 @@
-const express = require('express')
-const http  = require('http')
-const Server  = require("socket.io").Server
-const app = express()
-const path  = require('path')
+const express = require('express');
+const http = require('http');
+const path = require('path');
 
-const server  = http.createServer(app)
-const io = new Server(server , {
-    cors:{
-        origin:"*"
+const app = express();
+const server = http.createServer(app);
+
+const _dirname = path.dirname("");
+const buildPath = path.join(_dirname, "../client/build");
+
+app.use(express.static(buildPath));
+app.use(express.json()); // To parse JSON bodies
+
+app.get("/*", function (req, res) {
+  res.sendFile(
+    path.join(__dirname, "../client/build/index.html"),
+    function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
     }
-})
+  );
+});
 
 
-const _dirname = path.dirname("")
-const buildPath = path.join(_dirname  , "../client/build");
+// Import and use the HubSpot router
+const hubspotRouter = require('./routes/contact');
+app.use('/api/contact', hubspotRouter);
 
-app.use(express.static(buildPath))
-
-app.get("/*", function(req, res){
-
-    res.sendFile(
-        path.join(__dirname, "../client/build/index.html"),
-        function (err) {
-          if (err) {
-            res.status(500).send(err);
-          }
-        }
-      );
-
-})
-
-
-
-
-io.on("connection" , (socket) => {
-   console.log('We are connected')
-
-   socket.on("chat" , chat => {
-      io.emit('chat' , chat)
-   } )
-
-   socket.on('disconnect' , ()=> {
-    console.log('disconnected')
-   })
-})
-
-
-
-server.listen(5001 , () => console.log('Listening to port 5001'))
+server.listen(5001, () => console.log('Listening to port 5001'));
