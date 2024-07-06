@@ -49,7 +49,7 @@ const Form = ({ formData, formRef, shortForm = false }) => {
 
         try {
 
-            const response = await axios.post("http://localhost:5001/api/contact", data);
+            const response = await axios.post("http://gytb.org/api/contact", data);
             if (response?.statusText === "OK") {
                 createNotification('success')
             }
