@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const path = require('path');
+const cors = require('cors');  // Import the cors package
 
 const app = express();
 const server = http.createServer(app);
@@ -10,6 +11,9 @@ const buildPath = path.join(_dirname, "../client/build");
 
 app.use(express.static(buildPath));
 app.use(express.json()); // To parse JSON bodies
+
+// Enable CORS for all routes
+app.use(cors());
 
 app.get("/*", function (req, res) {
   res.sendFile(
